@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Body : MonoBehaviour
 {
+    public Vector3 Velocity => rb.velocity;
     public Vector3 VelocityXZ => Vector3.ProjectOnPlane(rb.velocity, Vector3.up);
     public Vector3 HeadingXZ => Vector3.ProjectOnPlane(transform.forward, Vector3.up).normalized;
 

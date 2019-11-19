@@ -14,7 +14,7 @@ public class RockModifier : MonoBehaviour
     {
         if (t.childCount == 0)
         {
-            t.GetComponent<MeshRenderer>().sharedMaterial = materials[Random.Range(0, 4)];
+            t.GetComponent<MeshRenderer>().sharedMaterial = materials[Random.Range(0, materials.Length)];
         }
         else
         {

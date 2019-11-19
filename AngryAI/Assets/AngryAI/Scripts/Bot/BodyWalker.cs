@@ -18,7 +18,7 @@ public class BodyWalker : Body
     {
         base.Initialize();
         this.offset = offset;
-        lmGround = 1 << Layers.GROUND;
+        lmGround = (1 << Layers.GROUND) ^ (1 << Layers.ROCK) ^ (1 << Layers.HILL); 
 
         obs = new List<float>(26);
         for (int i = 0; i < 4; i++)

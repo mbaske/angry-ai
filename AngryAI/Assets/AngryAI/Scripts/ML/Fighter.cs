@@ -51,6 +51,9 @@ public class Fighter : Agent
             AddVectorObs(-1f);
             AddVectorObs(result.NormDistance);
             // Observe opponent movement.
+            // TODO project before or after localizing velocity?
+            // Vector3 v = body.transform.InverseTransformVector(result.OpponentBody.Velocity);
+            // v = Vector3.ProjectOnPlane(v, Vector3.up);
             Vector3 v = body.transform.InverseTransformVector(result.OpponentBody.VelocityXZ);
             AddVectorObs(AgentUtil.Sigmoid(v.x));
             AddVectorObs(AgentUtil.Sigmoid(v.z));
