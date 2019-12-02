@@ -4,7 +4,7 @@
 
 This is a little robot battle simulation, made with [Unity Machine Learning Agents](https://github.com/Unity-Technologies/ml-agents) [v0.11](https://github.com/Unity-Technologies/ml-agents/releases/tag/0.11.0).  
 
-Each bot is controlled by two reinforcement learning models which were being trained in tandem. 
+Each bot is controlled by two reinforcement learning models which were being trained with PPO in tandem. 
 
 The upper-tier model ("fighter") observes the bot's vicinity with raycasts, collecting information about the types of objects, their relative distances and movements. Additionally, the bot's own velocity, its head position and body inclination are observed. The model output controls gun fire action and the bot's head for more precise aiming. It also provides walking directions and a walk mode for the lower-tier model. In order to train the bot for combat, rewards are assigned for locking on to a target and for movement speed (proportional to walked distance over ten time steps). It receives penalties if it comes too close to obstacles, falls over, or if it gets hit by an opponent bullet. Wasting ammunition and deciding not to fire while locking on to a target are penalized as well.
 
