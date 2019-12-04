@@ -50,11 +50,6 @@ public class WalkTrainerA : Walker
                 RandomizeTarget();
             }
         }
-
-        // if (!AgentUtil.ValidateObservations(this))
-        // {
-        //     Done();
-        // }
     }
 
     private void RandomizeTarget()

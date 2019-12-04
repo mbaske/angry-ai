@@ -4,8 +4,6 @@ using System;
 
 public class Walker : Agent
 {
-    public Action DoneCallback;
-
     public float WalkMode
     {
         set { walkMode = value; }
@@ -17,6 +15,9 @@ public class Walker : Agent
         set { normWalkDir = value; }
     }
     protected float normWalkDir;
+
+    [SerializeField]
+    protected Fighter fighter;
 
     [SerializeField]
     protected BodyWalker body;
@@ -50,21 +51,19 @@ public class Walker : Agent
 
     public override void CollectObservations()
     {
+        AddVectorObs(actionsBuffer); // 16
+        AddVectorObs(body.GetNormalizedObs()); // 26
+        AddVectorObs(normWalkDir);
+        AddVectorObs(walkMode);
+
         if (body.GetIsOutOfBounds())
         {
-            AgentUtil.SetNullObservations(this, 44);
             Done();
-        }
-        else
-        {
-            AddVectorObs(actionsBuffer); // 16
-            AddVectorObs(body.GetNormalizedObs()); // 26
-            AddVectorObs(normWalkDir);
-            AddVectorObs(walkMode);
+            fighter?.Done();
         }
     }
 
-    public override void AgentAction(float[] vectorAction, string textAction)
+    public override void AgentAction(float[] vectorAction)
     {
         // Interpolate action values between decision steps for smoother movements.
         int step = GetStepCount() % interval + 1;
@@ -79,16 +78,5 @@ public class Walker : Agent
         }
 
         body.StepUpdate(actionsLerp);
-        if (body.GetIsOutOfBounds())
-        {
-            Done();
-        }
-    }
-
-    public override void Done()
-    {
-        base.Done();
-        // Need to reset fighter agent as well.
-        DoneCallback?.Invoke();
     }
 }

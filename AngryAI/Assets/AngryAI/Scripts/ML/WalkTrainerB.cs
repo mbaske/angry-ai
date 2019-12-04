@@ -28,10 +28,5 @@ public class WalkTrainerB : Walker
                     break;
             }
         }
-
-        // if (!AgentUtil.ValidateObservations(this))
-        // {
-        //     Done();
-        // }
     }
 }

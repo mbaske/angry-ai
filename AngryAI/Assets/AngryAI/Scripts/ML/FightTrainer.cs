@@ -43,16 +43,11 @@ public class FightTrainer : Fighter
         AddReward(body.CumlProximity * -0.1f);
         // Penalize falling over.
         AddReward(body.transform.up.y - 1f);
-
-        // if (!AgentUtil.ValidateObservations(this))
-        // {
-        //     Done();
-        // }
     }
 
-    public override void AgentAction(float[] vectorAction, string textAction)
+    public override void AgentAction(float[] vectorAction)
     {
-        base.AgentAction(vectorAction, textAction);
+        base.AgentAction(vectorAction);
 
         if (isDecisionStep)
         {
@@ -62,6 +57,7 @@ public class FightTrainer : Fighter
                 {
                     // Penalize wasted ammo - although we're not 
                     // actually firing a shot when target isn't locked.
+                    // TODO train with higher penalty, bots fire too often.
                     AddReward(-0.05f);
                 }
             }

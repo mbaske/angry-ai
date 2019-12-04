@@ -2,7 +2,7 @@
 
 <img src="images/banner.png" align="middle" width="1920"/>
 
-This is a little robot battle simulation, made with [Unity Machine Learning Agents](https://github.com/Unity-Technologies/ml-agents) [v0.11](https://github.com/Unity-Technologies/ml-agents/releases/tag/0.11.0).  
+This is a little robot battle simulation, made with [Unity Machine Learning Agents](https://github.com/Unity-Technologies/ml-agents) [v0.12](https://github.com/Unity-Technologies/ml-agents/releases/tag/0.12.0).  
 
 Each bot is controlled by two reinforcement learning agents which were trained in tandem with PPO . 
 

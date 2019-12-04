@@ -21,7 +21,6 @@ public class Fighter : Agent
 
     public override void InitializeAgent()
     {
-        walker.DoneCallback = Done;
         interval = agentParameters.numberOfActionsBetweenDecisions;
         actionsLerp = new float[nActions];
         actionsBuffer = new float[nActions];
@@ -67,7 +66,7 @@ public class Fighter : Agent
         }
     }
 
-    public override void AgentAction(float[] vectorAction, string textAction)
+    public override void AgentAction(float[] vectorAction)
     {
         // Interpolate action values between decision steps for smoother movements.
         int step = GetStepCount() % interval + 1;

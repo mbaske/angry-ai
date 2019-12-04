@@ -52,9 +52,8 @@ MonoBehaviour:
     vectorActionSpaceType: 1
   m_Model: {fileID: 5022602860645237092, guid: 9bfbab62fef38f34c959895575883399, type: 3}
   m_InferenceDevice: 0
-  m_UseHeuristic: 0
+  m_BehaviorType: 0
   m_BehaviorName: Fighter
-  m_UseBarracuda: 0
 --- !u!114 &1930315022168094994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,9 +159,8 @@ MonoBehaviour:
     vectorActionSpaceType: 1
   m_Model: {fileID: 5022602860645237092, guid: 01f6d661e2d4f1641bf992be3edfa866, type: 3}
   m_InferenceDevice: 0
-  m_UseHeuristic: 0
+  m_BehaviorType: 0
   m_BehaviorName: Walker
-  m_UseBarracuda: 0
 --- !u!114 &2289681072403689945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,7 +178,7 @@ MonoBehaviour:
     resetOnDone: 1
     onDemandDecision: 0
     numberOfActionsBetweenDecisions: 5
-  bot: {fileID: 8703936914265193059}
+  fighter: {fileID: 1930315022168094994}
   body: {fileID: 8703936916046316314}
 --- !u!1001 &1930315022925352004
 PrefabInstance:
