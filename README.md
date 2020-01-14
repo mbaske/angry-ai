@@ -16,3 +16,6 @@ https://assetstore.unity.com/packages/3d/environments/landscapes/polydesert-1071
 
 Gun Bot design by Dennis Haupt.  
 https://3dhaupt.com/3d-model-my-gunbot-design-download/
+
+Dependencies:  
+https://github.com/Unity-Technologies/ml-agents/releases/tag/0.12.0
