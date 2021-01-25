@@ -4,25 +4,25 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Body
-  - Bullet
+  - Spot
+  - GunBot
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
-  - 
-  - 
   - Bot
-  - Body
-  - Limb
-  - Head
-  - Ground
-  - Hill
-  - Rock
+  - Obstacle
   - Bullet
+  - Trigger
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 

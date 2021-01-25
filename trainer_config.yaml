@@ -1,0 +1,118 @@
+behaviors:
+
+  Fight:
+    trainer_type: ppo
+    keep_checkpoints: 10
+    max_steps: 1e8
+    time_horizon: 1000
+    summary_freq: 10000
+    threaded: true
+
+    network_settings:
+      normalize: false
+      hidden_units: 512
+      num_layers: 1
+      vis_encode_type: simple
+
+    hyperparameters:
+      batch_size: 1024
+      buffer_size: 86016 # 6 executables x 14 agents x 1024
+      learning_rate: 0.0003
+      beta: 0.01
+      epsilon: 0.2
+      lambd: 0.95
+      num_epoch: 3
+      learning_rate_schedule: linear
+
+    reward_signals:
+      extrinsic:
+        gamma: 0.99
+        strength: 1.0
+
+
+  WalkSpot:
+    trainer_type: ppo
+    keep_checkpoints: 10
+    max_steps: 1e8
+    time_horizon: 1000
+    summary_freq: 10000
+    threaded: true
+
+    network_settings:
+      normalize: false
+      hidden_units: 384 # 48 vector obs x 8
+      num_layers: 3
+      vis_encode_type: simple
+
+    hyperparameters:
+      batch_size: 2048
+      buffer_size: 73728 # 4 executables x 9 agents x 2048
+      learning_rate: 0.0003
+      beta: 0.005
+      epsilon: 0.2
+      lambd: 0.95
+      num_epoch: 3
+      learning_rate_schedule: constant
+
+    reward_signals:
+      extrinsic:
+        strength: 1.0 
+        gamma: 0.99
+        
+      # gail:
+        # strength: 1.0
+        # gamma: 0.99
+        # encoding_size: 128
+        # learning_rate: 0.0003
+        # use_actions: true
+        # use_vail: false
+        # demo_path: Assets/ML/Demos/Spot.demo
+
+    # behavioral_cloning:
+    #   demo_path: Assets/ML/Demos/Spot.demo
+    #   steps: 10000000
+    #   strength: 0.5
+
+
+  WalkGunBot:
+    trainer_type: ppo
+    keep_checkpoints: 10
+    max_steps: 1e8
+    time_horizon: 1000
+    summary_freq: 10000
+    threaded: true
+
+    network_settings:
+      normalize: false
+      hidden_units: 448 # 56 vector obs x 8
+      num_layers: 3
+      vis_encode_type: simple
+
+    hyperparameters:
+      batch_size: 2048
+      buffer_size: 73728 # 4 executables x 9 agents x 2048
+      learning_rate: 0.0003
+      beta: 0.005
+      epsilon: 0.2
+      lambd: 0.95
+      num_epoch: 3
+      learning_rate_schedule: constant
+
+    reward_signals:
+      extrinsic:
+        strength: 1.0
+        gamma: 0.99
+        
+      # gail:
+      #   strength: 1.0
+      #   gamma: 0.99
+      #   encoding_size: 128
+      #   learning_rate: 0.0003
+      #   use_actions: true
+      #   use_vail: false
+      #   demo_path: Assets/ML/Demos/GunBot.demo
+
+    # behavioral_cloning:
+    #   demo_path: Assets/ML/Demos/GunBot.demo
+    #   steps: 10000000
+    #   strength: 0.5
