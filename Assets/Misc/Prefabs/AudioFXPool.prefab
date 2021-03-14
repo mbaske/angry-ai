@@ -43,7 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 036d3d429121b13499f02170dba4cd67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EnableSpawn: 1
   m_Prefabs:
   - {fileID: 8075762776679658168, guid: c5e7c7dea16722942ae5ee5fa27493e3, type: 3}
   - {fileID: 3327712159737964970, guid: 2ea730a9c5dadfd48bd7f7fd9fedb52a, type: 3}
@@ -53,3 +52,5 @@ MonoBehaviour:
   - {fileID: 6388947413796786605, guid: de1ace5fae4a30f45aa768ae03eb0204, type: 3}
   - {fileID: 1700989097259636773, guid: 38fe46b90b7141c4baf5cbd866ec9075, type: 3}
   - {fileID: 3685251330665401827, guid: 2bece65c88ef5ff45ae44a251aa04518, type: 3}
+  m_Capacities: 1000000000000000000000000000000000000000000000000000000000000000
+  m_EnableAudioFX: 1

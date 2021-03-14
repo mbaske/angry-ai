@@ -3,12 +3,13 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 
-namespace MLGridSensor
+namespace MBaske.Sensors.Grid
 {
     /// <summary>
-    /// Sensor class that wraps a <see cref="MLGridSensor.PixelGrid"/> instance.
-    /// Developer has to provide a <see cref="MLGridSensor.PixelGrid"/> instance and 
-    /// implement the logic for mapping agent observations to grid values.
+    /// Sensor class that wraps a <see cref="PixelGrid"/>.
+    /// 
+    /// Developer has to provide a PixelGrid instance and implement
+    /// the logic for mapping agent observations to grid values.
     /// </summary>
     public class GridSensor : ISensor
     {
@@ -18,6 +19,11 @@ namespace MLGridSensor
         public event Action UpdateEvent;
 
         /// <summary>
+        /// Invoked on ISensor.Reset()
+        /// </summary>
+        public event Action ResetEvent;
+
+        /// <summary>
         /// Name of the sensor.
         /// </summary>
         public string SensorName
@@ -25,17 +31,17 @@ namespace MLGridSensor
             get { return m_SensorName; }
             set { m_SensorName = value; }
         }
-        private string m_SensorName = "GridSensor";
+        protected string m_SensorName = "GridSensor";
 
         /// <summary>
         /// The PixelGrid used by the sensor.
         /// </summary>
-        public PixelGrid PixelGrid
+        public PixelGrid Grid
         {
-            get { return m_PixelGrid; }
-            set { m_PixelGrid = value; Allocate(); }
+            get { return m_Grid; }
+            set { m_Grid = value; Allocate(); }
         }
-        private PixelGrid m_PixelGrid;
+        protected PixelGrid m_Grid;
 
         /// <summary>
         /// The compression type used by the sensor.
@@ -45,32 +51,52 @@ namespace MLGridSensor
             get { return m_Compression; }
             set { m_Compression = value; Allocate(); }
         }
-        private SensorCompressionType m_Compression;
+        protected SensorCompressionType m_Compression;
+
+        /// <summary>
+        /// Optional detector to use for the sensor.
+        /// </summary>
+        public Detector Detector
+        {
+            get { return m_Detector; }
+            set { m_Detector = value; }
+        }
+        protected Detector m_Detector;
+
+        /// <summary>
+        /// Optional encoder to use for the sensor.
+        /// </summary>
+        public Encoder Encoder
+        {
+            get { return m_Encoder; }
+            set { m_Encoder = value; }
+        }
+        protected Encoder m_Encoder;
 
 
-        private GridObservationShape m_Shape;
+        protected GridShape m_Shape;
         // PNG compression.
-        private Texture2D m_Texture2D;
-        private List<byte> m_Bytes;
+        protected Texture2D m_Texture2D;
+        protected List<byte> m_Bytes;
 
         /// <summary>
         /// Initializes the sensor.
         /// </summary>
-        /// <param name="grid">The <see cref="MLGridSensor.PixelGrid"/> instance to wrap.</param>
+        /// <param name="grid">The <see cref="PixelGrid"/> instance to wrap.</param>
         /// <param name="compression">The compression to apply to the generated image.</param>
         /// <param name="name">Name of the sensor.</param>
         public GridSensor(PixelGrid grid, SensorCompressionType compression, string name)
         {
-            m_SensorName = name;
-            m_PixelGrid = grid;
+            m_Grid = grid;
             m_Compression = compression;
+            m_SensorName = name;
 
             Allocate();
         }
 
-        private void Allocate()
+        protected void Allocate()
         {
-            m_Shape = m_PixelGrid.Shape;
+            m_Shape = m_Grid.Shape;
 
             if (m_Compression == SensorCompressionType.PNG)
             {
@@ -101,9 +127,11 @@ namespace MLGridSensor
         public byte[] GetCompressedObservation()
         {
             m_Bytes.Clear();
-            foreach (Color32[] colors in m_PixelGrid.GetColors())
+
+            var colors = m_Grid.LayerColors;
+            for (int i = 0, n = colors.Length; i < n; i++)
             {
-                m_Texture2D.SetPixels32(colors);
+                m_Texture2D.SetPixels32(colors[i]);
                 m_Bytes.AddRange(m_Texture2D.EncodeToPNG());
             }
 
@@ -113,13 +141,13 @@ namespace MLGridSensor
         /// <inheritdoc/>
         public int Write(ObservationWriter writer)
         {
-            for (int c = 0; c < m_PixelGrid.Channels; c++)
+            for (int c = 0; c < m_Grid.Channels; c++)
             {
-                for (int x = 0; x < m_PixelGrid.Width; x++)
+                for (int x = 0; x < m_Grid.Width; x++)
                 {
-                    for (int y = 0; y < m_PixelGrid.Height; y++)
+                    for (int y = 0; y < m_Grid.Height; y++)
                     {
-                        writer[y, x, c] = m_PixelGrid.Read(c, x, y);
+                        writer[y, x, c] = m_Grid.Read(c, x, y);
                     }
                 }
             }
@@ -128,15 +156,19 @@ namespace MLGridSensor
         }
 
         /// <inheritdoc/>
-        public void Update() 
+        public virtual void Update() 
         {
+            m_Encoder?.Encode(m_Detector.Update());
             UpdateEvent?.Invoke();
         }
 
         /// <inheritdoc/>
-        public void Reset() 
+        public virtual void Reset() 
         {
-            m_PixelGrid.Clear();
+            m_Grid.Clear();
+            m_Detector?.Reset();
+            m_Encoder?.Reset();
+            ResetEvent?.Invoke();
         }
     }
 }

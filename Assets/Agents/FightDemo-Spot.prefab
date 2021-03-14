@@ -67,9 +67,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3753924001442191930}
   - component: {fileID: 3753924001442191929}
-  - component: {fileID: 3982736139067845484}
   - component: {fileID: 3753924001442191928}
   - component: {fileID: 3753924001442191935}
+  - component: {fileID: 3648060968644509994}
   m_Layer: 0
   m_Name: FightDemo-Spot
   m_TagString: Spot
@@ -122,21 +122,6 @@ MonoBehaviour:
   m_UseChildSensors: 0
   m_UseChildActuators: 1
   m_ObservableAttributeHandling: 0
---- !u!114 &3982736139067845484
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3753924001442191934}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25a7895cdc4209f41a40987175afcc4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SensorName: GridSensor
-  m_Compression: 1
-  m_PixelGridProvider: {fileID: 3753924001442191928}
 --- !u!114 &3753924001442191928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,6 +154,21 @@ MonoBehaviour:
   DecisionInterval: 10
   PerStepActions: 1
   m_Active: 0
+--- !u!114 &3648060968644509994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3753924001442191934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db6eccaa463933e4abdf801391ff77af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ObservationShape: 
+  m_SensorName: GridSensor
+  m_CompressionType: 1
 --- !u!1 &8828086988066901120
 GameObject:
   m_ObjectHideFlags: 0

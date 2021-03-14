@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace MLGridSensor
+namespace MBaske.Sensors.Grid
 {
     /// <summary>
     /// 3D data structure for storing float values.
@@ -50,7 +50,7 @@ namespace MLGridSensor
         /// <summary>
         /// The width and height of the grid as Vector2Int.
         /// </summary>
-        public Vector2Int Dimensions
+        public Vector2Int Size
         {
             get { return new Vector2Int(m_Width, m_Height); }
             set { m_Width = value.x; m_Height = value.y ; Allocate(); }
@@ -59,11 +59,12 @@ namespace MLGridSensor
         /// <summary>
         /// The grid's observation shape.
         /// </summary
-        public GridObservationShape Shape
+        public GridShape Shape
         {
-            get { return new GridObservationShape(m_Channels, m_Width, m_Height); }
-            set { m_Channels = value.Channels; m_Width = value.Width; m_Height = value.Height; Allocate(); }
+            get { return m_Shape; }
+            set { m_Shape = value; Allocate(); }
         }
+        protected GridShape m_Shape;
 
 
         // [channel][y * width + x]
@@ -78,9 +79,7 @@ namespace MLGridSensor
         /// <param name="name">The name of the grid instance.</param>
         public ChannelGrid(int channels, int width, int height, string name = "Grid")
         {
-            m_Channels = channels;
-            m_Width = width;
-            m_Height = height;
+            m_Shape = new GridShape(channels, width, height);
             m_Name = name;
 
             Allocate();
@@ -91,11 +90,21 @@ namespace MLGridSensor
         /// </summary>
         /// <param name="shape">The grid's observation shape.</param>
         /// <param name="name">The name of the grid instance.</param>
-        public ChannelGrid(GridObservationShape shape, string name = "Grid")
-            : this(shape.Channels, shape.Width, shape.Height, name) { }
+        public ChannelGrid(GridShape shape, string name = "Grid")
+        {
+            m_Shape = shape;
+            m_Name = name;
+
+            Allocate();
+        }
+
 
         protected virtual void Allocate()
         {
+            m_Channels = m_Shape.Channels;
+            m_Width = m_Shape.Width;
+            m_Height = m_Shape.Height;
+
             m_Values = new float[m_Channels][];
 
             for (int i = 0; i < m_Channels; i++)
@@ -109,9 +118,19 @@ namespace MLGridSensor
         /// </summary>
         public virtual void Clear()
         {
-            for (int i = 0; i < m_Channels; i++)
+            ClearChannels(0, m_Channels);
+        }
+
+        /// <summary>
+        /// Clears grid values of specified channels by setting them to 0.
+        /// <param name="start">The first channel's index.</param>
+        /// <param name="length">The number of channels to clear.</param>
+        /// </summary>
+        public virtual void ClearChannels(int start, int length)
+        {
+            for (int i = 0; i < length; i++)
             {
-                ClearChannel(i);
+                ClearChannel(start + i);
             }
         }
 
@@ -121,7 +140,10 @@ namespace MLGridSensor
         /// </summary>
         public virtual void ClearChannel(int channel)
         {
-            System.Array.Clear(m_Values[channel], 0, m_Values[channel].Length);
+            if (channel < Channels)
+            {
+                System.Array.Clear(m_Values[channel], 0, m_Values[channel].Length);
+            }
         }
 
         /// <summary>
@@ -246,6 +268,34 @@ namespace MLGridSensor
         public virtual bool Contains(Vector2Int pos)
         {
             return Contains(pos.x, pos.y);
+        }
+
+        /// <summary>
+        /// Calculates a grid position from a normalized Vector2.
+        /// </summary>
+        /// <param name="norm">The normalized vector.</param>
+        /// <returns>The grid position.</returns>
+        public Vector2Int NormalizedToGridPos(Vector2 norm)
+        {
+            return new Vector2Int(
+                (int)(norm.x * m_Width), 
+                (int)(norm.y * m_Height)
+            );
+        }
+
+        /// <summary>
+        /// Calculates a grid rectangle from a normalized Rect.
+        /// </summary>
+        /// <param name="norm">The normalized rectangle.</param>
+        /// <returns>The grid rectangle.</returns>
+        public RectInt NormalizedToGridRect(Rect norm)
+        {
+            return new RectInt(
+                (int)(norm.xMin * m_Width), 
+                (int)(norm.yMin * m_Height),
+                (int)(norm.width * m_Width), 
+                (int)(norm.height * m_Height)
+            );
         }
     }
 }

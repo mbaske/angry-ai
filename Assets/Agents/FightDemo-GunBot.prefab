@@ -116,9 +116,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6920454002525948417}
   - component: {fileID: 6920454002525948416}
-  - component: {fileID: 8832390706126143398}
   - component: {fileID: 6920454002525948419}
   - component: {fileID: 6920454002525948418}
+  - component: {fileID: 1860625723620258511}
   m_Layer: 0
   m_Name: FightDemo-GunBot
   m_TagString: GunBot
@@ -171,21 +171,6 @@ MonoBehaviour:
   m_UseChildSensors: 0
   m_UseChildActuators: 1
   m_ObservableAttributeHandling: 0
---- !u!114 &8832390706126143398
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6920454002525948421}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25a7895cdc4209f41a40987175afcc4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SensorName: GridSensor
-  m_Compression: 1
-  m_PixelGridProvider: {fileID: 6920454002525948419}
 --- !u!114 &6920454002525948419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,6 +203,21 @@ MonoBehaviour:
   DecisionInterval: 10
   PerStepActions: 1
   m_Active: 0
+--- !u!114 &1860625723620258511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6920454002525948421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db6eccaa463933e4abdf801391ff77af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ObservationShape: 
+  m_SensorName: GridSensor
+  m_CompressionType: 1
 --- !u!1001 &5983760446645896912
 PrefabInstance:
   m_ObjectHideFlags: 0

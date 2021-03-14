@@ -1,5 +1,5 @@
 using UnityEngine;
-using MLGridSensor;
+using MBaske.Sensors.Grid;
 using System.Collections.Generic;
 
 namespace MBaske

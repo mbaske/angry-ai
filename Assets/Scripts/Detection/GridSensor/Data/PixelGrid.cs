@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 using System.Linq;
 
-namespace MLGridSensor
+namespace MBaske.Sensors.Grid
 {
     /// <summary>
     /// 3D data structure for storing float values and pixel colors.
@@ -19,8 +18,13 @@ namespace MLGridSensor
         }
         protected int m_Layers;
 
+        public Color32[][] LayerColors
+        {
+            get { return m_Colors; }
+        }
+
         protected Color32[][] m_Colors;
-        private Color32[] c_Black;
+        protected Color32[] c_Black;
 
         /// <summary>
         /// Initializes the grid.
@@ -37,7 +41,7 @@ namespace MLGridSensor
         /// </summary>
         /// <param name="shape">The grid's observation shape.</param>
         /// <param name="name">The name of the grid instance.</param>
-        public PixelGrid(GridObservationShape shape, string name = "PixelGrid")
+        public PixelGrid(GridShape shape, string name = "PixelGrid")
             : base(shape, name) { }
 
 
@@ -73,20 +77,43 @@ namespace MLGridSensor
         /// </summary>
         public virtual void ClearLayer(int layer)
         {
-            base.ClearChannel(layer * 3);
-
-            if (m_Channels > layer * 3 + 1)
-            {
-                base.ClearChannel(layer * 3 + 1);
-            }
-
-            if (m_Channels > layer * 3 + 2)
-            {
-                base.ClearChannel(layer * 3 + 2);
-            }
-            
+            int channel = layer * 3;
+            base.ClearChannel(channel);
+            base.ClearChannel(channel + 1);
+            base.ClearChannel(channel + 2);
             ClearLayerColors(layer);
         }
+
+        /// <summary>
+        /// Clears grid values of specified channels by setting them to 0. Sets layer pixels to black.
+        /// <param name="start">The first channel's index.</param>
+        /// <param name="length">The number of channels to clear.</param>
+        /// </summary>
+        public override void ClearChannels(int start, int length)
+        {
+            int channel = start;
+            int n = start + length;
+
+            while (channel < n)
+            {
+                if (channel % 3 == 0 && channel < n - 1)
+                {
+                    // Faster than clearing individual channel colors.
+                    ClearLayerColors(channel / 3);
+
+                    base.ClearChannel(channel);
+                    base.ClearChannel(channel + 1);
+                    base.ClearChannel(channel + 2);
+                    channel += 3;
+                }
+                else
+                {
+                    ClearChannel(channel);
+                    channel++;
+                }
+            }
+        }
+
 
         /// <summary>
         /// Clears grid values of a specified channel by setting them to 0. Sets channel's pixels' color to 0.
@@ -108,24 +135,12 @@ namespace MLGridSensor
         /// <param name="value">The value to write.</param>
         public override void Write(int channel, int x, int y, float value)
         {
-            Debug.Assert(value >= 0f && value <= 1f, $"Value {value} must be between 0 and 1");
             base.Write(channel, x, y, value);
+
             int layer = channel / 3;
             int color = channel - layer * 3;
             // Bottom to top, left to right.
             m_Colors[layer][(m_Height - y - 1) * m_Width + x][color] = (byte)(value * 255f);
-        }
-
-        /// <summary>
-        /// Iterates the color values for the grid layers.
-        /// </summary>
-        /// <returns>Color32 array for each layer.</returns>
-        public IEnumerable<Color32[]> GetColors()
-        {
-            for (int i = 0; i < m_Layers; i++)
-            {
-                yield return m_Colors[i];
-            }
         }
 
         private void ClearColors()

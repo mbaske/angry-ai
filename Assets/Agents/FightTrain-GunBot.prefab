@@ -67,9 +67,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1818429208193428761}
   - component: {fileID: 1818429208193428760}
-  - component: {fileID: 262557914310449342}
   - component: {fileID: 1818429208193428763}
   - component: {fileID: 1818429208193428762}
+  - component: {fileID: 8749543501112545084}
   m_Layer: 0
   m_Name: FightTrain-GunBot
   m_TagString: GunBot
@@ -123,21 +123,6 @@ MonoBehaviour:
   m_UseChildSensors: 0
   m_UseChildActuators: 1
   m_ObservableAttributeHandling: 0
---- !u!114 &262557914310449342
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1818429208193428765}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25a7895cdc4209f41a40987175afcc4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SensorName: GridSensor
-  m_Compression: 1
-  m_PixelGridProvider: {fileID: 1818429208193428763}
 --- !u!114 &1818429208193428763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,6 +156,21 @@ MonoBehaviour:
   DecisionInterval: 10
   PerStepActions: 1
   m_Active: 0
+--- !u!114 &8749543501112545084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818429208193428765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db6eccaa463933e4abdf801391ff77af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ObservationShape: 
+  m_SensorName: GridSensor
+  m_CompressionType: 1
 --- !u!1 &1818429208214723842
 GameObject:
   m_ObjectHideFlags: 0

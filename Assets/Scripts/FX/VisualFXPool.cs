@@ -4,6 +4,9 @@ namespace MBaske
 {
     public class VisualFXPool : Pool<VisualFX>
     {
+        [SerializeField]
+        private bool m_EnableVisualFX;
+
         public void MuzzleFlash(Vector3 pos)
         {
             Play(pos, 0);
@@ -31,7 +34,7 @@ namespace MBaske
 
         private void Play(Vector3 pos, int index)
         {
-            if (m_EnableSpawn && Util.ViewportContains(pos))
+            if (m_EnableVisualFX && Util.ViewportContains(pos))
             {
                 Spawn(pos, index);
             }

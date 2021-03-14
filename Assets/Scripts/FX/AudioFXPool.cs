@@ -4,6 +4,9 @@ namespace MBaske
 {
     public class AudioFXPool : Pool<AudioFX>
     {
+        [SerializeField]
+        private bool m_EnableAudioFX;
+
         public void Shot(Vector3 pos)
         {
             Play(pos, 0);
@@ -46,7 +49,7 @@ namespace MBaske
 
         private void Play(Vector3 pos, int index)
         {
-            if (m_EnableSpawn && Util.IsInFrontOfCamera(pos))
+            if (m_EnableAudioFX && Util.IsInFrontOfCamera(pos))
             {
                 Spawn(pos, index);
             }

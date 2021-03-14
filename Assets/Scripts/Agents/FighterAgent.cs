@@ -1,7 +1,7 @@
 using UnityEngine;
 using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
-using MLGridSensor;
+using MBaske.Sensors.Grid;
 using System;
 
 namespace MBaske
@@ -29,6 +29,7 @@ namespace MBaske
         protected bool m_IsPreDecisionStep;
 
         protected AgentViewRect m_ViewRect;
+        protected GridSensorComponentBase m_SensorComp;
         protected GridSensor m_Sensor;
 
         public override void Initialize()
@@ -43,11 +44,18 @@ namespace MBaske
             m_Trigger.BulletHitSufferedEvent += OnBulletHitSuffered;
             m_Trigger.CollisionEvent += OnCollision;
 
-            InitGridSensor();
+            m_SensorComp = GetComponent<GridSensorComponentBase>();
+            m_SensorComp.PixelGridProvider = this;
         }
 
         public override void OnEpisodeBegin()
         {
+            if (m_Sensor == null)
+            {
+                m_Sensor = m_SensorComp.Sensor;
+                m_Sensor.UpdateEvent += OnSensorUpdate;
+            }
+
             ResetAgent();
             m_Weapon.ResetStats();
             EpisodeBeginEvent?.Invoke(this);
@@ -131,19 +139,6 @@ namespace MBaske
 
 
         // GRID SENSOR
-
-        private void InitGridSensor()
-        {
-            var comp = GetComponent<GridSensorComponent>();
-            if (comp == null)
-            {
-                comp = gameObject.AddComponent<GridSensorComponent>();
-                comp.PixelGridProvider = this;
-            }
-
-            m_Sensor = comp.CreateSensor() as GridSensor;
-            m_Sensor.UpdateEvent += OnSensorUpdate;
-        }
 
         protected void OnSensorUpdate()
         {
